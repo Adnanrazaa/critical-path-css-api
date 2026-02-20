@@ -1,31 +1,24 @@
-# WPCC Vercel Worker
+# WP Critical Path CSS API
 
-This is a remote critical-CSS generator for the WordPress plugin.
+Remote critical-CSS generator for the WordPress plugin.
 
-## Deploy on Vercel
+## Recommended deploy: Render (Docker)
 
-1. Create a new Git repo containing this `vercel-worker` folder.
-2. In Vercel, import that repo.
-3. Framework preset: `Other`.
-4. Build command: leave empty.
-5. Output directory: leave empty.
+1. Push this repo to GitHub.
+2. In Render, create a new `Blueprint` or `Web Service` using this repo.
+3. If using Blueprint, Render will use `render.yaml`.
+4. Set env var:
+   - `WPCC_API_KEY` (required)
 
-Endpoint after deploy:
-- `https://YOUR-PROJECT.vercel.app/api/generate`
+Service endpoints:
+- `POST /api/generate`
+- `GET /health`
 
-## Environment variables
-
-Set these in Vercel Project Settings:
-
-- `WPCC_API_KEY` = a random secret string
-- `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD` = `1`
-- `PUPPETEER_SKIP_DOWNLOAD` = `1`
-
-## Local test
+## Local run (Docker)
 
 ```bash
-npm install
-vercel dev
+docker build -t wp-critical-path-api .
+docker run --rm -p 3000:3000 -e WPCC_API_KEY=generate wp-critical-path-api
 ```
 
 Then test:
@@ -33,7 +26,7 @@ Then test:
 ```bash
 curl -X POST http://localhost:3000/api/generate \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_KEY' \
+  -H 'Authorization: Bearer generate' \
   -d '{"url":"https://example.com","width":1366,"height":768,"timeout":60000}'
 ```
 
@@ -48,6 +41,5 @@ Expected JSON:
 In `Tools > WP Critical CSS`:
 
 - `Generator Mode`: `Remote API`
-- `Remote Endpoint`: `https://YOUR-PROJECT.vercel.app/api/generate`
-- `Remote API Key`: same value as `WPCC_API_KEY`
-
+- `Remote Endpoint`: your service URL + `/api/generate`
+- `Remote API Key`: same as `WPCC_API_KEY`

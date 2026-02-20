@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: critical-path-css-api
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: WPCC_API_KEY
+        sync: false
