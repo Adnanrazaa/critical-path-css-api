@@ -1,0 +1,11 @@
+{
+  "name": "wpcc-vercel-worker",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "dependencies": {
+    "@sparticuz/chromium": "^123.0.1",
+    "penthouse": "^2.3.3",
+    "puppeteer-core": "^24.2.0"
+  }
+}
